@@ -9,13 +9,21 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [alert, setAlert] = useState({ type: "", message: "" });
+  const [loading, setLoading] = useState(false); // New loading state
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when the form is submitted
+
     if (password !== confirmPassword) {
       setAlert({ type: "error", message: "Passwords do not match." });
+      setLoading(false); // Reset loading state
     } else {
-      setAlert({ type: "success", message: "Account created successfully!" });
+      // Simulate an async operation (like an API call)
+      setTimeout(() => {
+        setAlert({ type: "success", message: "Account created successfully!" });
+        setLoading(false); // Reset loading state after the operation
+      }, 2000); // Adjust the delay as needed
     }
   };
 
@@ -67,8 +75,35 @@ export default function LoginPage() {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+            disabled={loading}
           >
-            Create an account
+            {loading ? (
+              <span className="flex items-center justify-center">
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v2a6 6 0 00-6 6H4z"
+                  />
+                </svg>
+                
+              </span>
+            ) : (
+              "Create an account"
+            )}
           </button>
         </form>
 
